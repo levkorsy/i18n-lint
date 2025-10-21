@@ -1,27 +1,45 @@
-# i18n Hebrew Checker
+# i18n Quality Lint
 
-A tool to check Hebrew translation files for untranslated strings.
+A lightweight CLI tool to lint i18n translation files and detect untranslated strings.
 
 ## Installation
 
+### Global installation
 ```bash
-npm install -g i18n-hebrew-checker
+npm install -g i18n-quality-lint
+```
+
+### Project installation (recommended)
+```bash
+npm install --save-dev i18n-quality-lint
 ```
 
 ## Usage
 
 ### Quick check (console only)
 ```bash
-npm run check
-# or
-i18n-hebrew-checker
+# Global
+i18n-quality-lint
+
+# Project installation
+npx i18n-quality-lint
+
+# Or add to package.json scripts:
+# "i18n:check": "i18n-quality-lint"
+npm run i18n:check
 ```
 
 ### Check and save results
 ```bash
-npm run check:save
-# or
-i18n-hebrew-checker --save
+# Global
+i18n-quality-lint --save
+
+# Project installation
+npx i18n-quality-lint --save
+
+# Or add to package.json scripts:
+# "i18n:check:save": "i18n-quality-lint --save"
+npm run i18n:check:save
 ```
 
 ## Configuration
@@ -47,6 +65,20 @@ Create `.i18ncheckrc.json` in your project root:
 - `allowlist` - Values that are allowed (technical terms, abbreviations)
 - `failOnFindings` - Exit with error code if issues found (useful for CI/CD)
 - `outputDir` - Directory to save results
+
+## Example package.json scripts
+
+```json
+{
+  "scripts": {
+    "i18n:check": "i18n-quality-lint",
+    "i18n:check:save": "i18n-quality-lint --save"
+  },
+  "devDependencies": {
+    "i18n-quality-lint": "^1.0.1"
+  }
+}
+```
 
 ## Features
 
