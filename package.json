@@ -1,15 +1,16 @@
 {
-  "name": "i18n-lint",
+  "name": "i18n-quality-lint",
   "version": "1.0.0",
   "description": "A tool to check Hebrew translation files for untranslated strings",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "i18n-lint": "./index.js"
+    "i18n-quality-lint": "./index.js"
   },
   "scripts": {
     "check": "node index.js",
-    "check:save": "node index.js --save"
+    "check:save": "node index.js --save",
+    "publish:npm": "npm publish"
   },
   "keywords": ["i18n", "hebrew", "translation", "checker", "localization"],
   "author": "Lev Korsunskyi",
