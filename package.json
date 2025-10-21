@@ -12,11 +12,11 @@
     "check:save": "node index.js --save"
   },
   "keywords": ["i18n", "hebrew", "translation", "checker", "localization"],
-  "author": "Your Name",
+  "author": "Lev Korsunskyi",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/i18n-lint.git"
+    "url": "https://github.com/levkorsy/i18n-lint.git"
   },
   "engines": {
     "node": ">=14.0.0"
