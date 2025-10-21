@@ -1,0 +1,18 @@
+{
+  "files": [
+    "C:\\Users\\lev_k\\Development\\Projects\\hrm-portal\\src\\i18n\\translations\\he.json"
+  ],
+  "ignoreKeys": ["BULK_ACTIONS"],
+  "allowlist": [
+    "AWS", "SSO", "JWT", "ID", "N/A", "API", "Google",
+    "Tenant ID", "Client secret", "Client ID", "{tabName}",
+    "System high", "System normal", "{ariaLabel} chip", "Esc", "18+",
+    "Directory (tenant) ID", "Application (client) ID", "Secret value",
+    "General status", "Authorization", "Permissions: {list}",
+    "Mailbox exists", "Inbox folder", "Archive folder",
+    "Can read messages", "Error message: {message}",
+    "Folder ID: {id}", "Total items {count}", "App ID", "Office 365"
+  ],
+  "failOnFindings": true,
+  "outputDir": "output"
+}

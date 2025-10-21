@@ -1,0 +1,24 @@
+{
+  "name": "i18n-lint",
+  "version": "1.0.0",
+  "description": "A tool to check Hebrew translation files for untranslated strings",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "i18n-lint": "./index.js"
+  },
+  "scripts": {
+    "check": "node index.js",
+    "check:save": "node index.js --save"
+  },
+  "keywords": ["i18n", "hebrew", "translation", "checker", "localization"],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/i18n-lint.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
