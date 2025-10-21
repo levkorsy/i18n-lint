@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const shouldSaveFile = process.argv.includes('--save');
 
 try {
-    const config = JSON.parse(await readFile(join(__dirname, '.i18ncheckrc.json'), 'utf8'));
+    const config = JSON.parse(await readFile('.i18ncheckrc.json', 'utf8'));
     
     for (const filePath of config.files) {
         console.log(`Checking: ${filePath}`);
@@ -21,7 +21,7 @@ try {
             
             if (shouldSaveFile) {
                 const currentDate = new Date().toISOString().split('T')[0];
-                const outputPath = join(__dirname, config.outputDir, `nonHebrewValues_${currentDate}.json`);
+                const outputPath = join(config.outputDir, `nonHebrewValues_${currentDate}.json`);
                 
                 await writeFile(outputPath, JSON.stringify(nonHebrewValues, null, 2));
                 console.log('The file has been saved!');
