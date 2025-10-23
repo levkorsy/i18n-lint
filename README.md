@@ -40,8 +40,8 @@ echo '{
       "language": "english"
     },
     {
-      "path": "src/i18n/he.json",
-      "language": "hebrew"
+      "path": "src/i18n/es.json",
+      "language": "spanish"
     }
   ]
 }' > .i18ncheckrc.json
@@ -55,20 +55,20 @@ npx i18n-quality-lint
 ```bash
 $ npx i18n-quality-lint
 
-Checking: src/i18n/he.json (Hebrew)
+Checking: src/i18n/es.json (Spanish)
 Found: 2 untranslated values
-  PASSWORD: "Password"           # ← English in Hebrew file
+  PASSWORD: "Password"           # ← English in Spanish file
   CANCEL: "Cancel"
 
 Checking: src/i18n/en.json (English)  
 Found: 1 untranslated values
-  WELCOME: "ברוכים הבאים"        # ← Hebrew in English file
+  WELCOME: "Bienvenidos"         # ← Spanish in English file
 
 🔄 Checking key synchronization between files...
 Found: 2 synchronization issues
-  src/i18n/he.json:
+  src/i18n/es.json:
     Missing keys (1):
-      EXTRA_KEY                   # ← Key exists in EN but not HE
+      EXTRA_KEY                   # ← Key exists in EN but not ES
     Key order issues (1):         # ← Optional: different key order
       Position 1: expected 'WELCOME', found 'LOGIN'
 ```
@@ -86,8 +86,8 @@ Create `.i18ncheckrc.json` in your project root:
       "language": "english"
     },
     {
-      "path": "src/i18n/he.json",
-      "language": "hebrew"
+      "path": "src/i18n/es.json",
+      "language": "spanish"
     }
   ]
 }
@@ -104,8 +104,8 @@ Create `.i18ncheckrc.json` in your project root:
       "allowlist": ["API", "JWT", "OAuth", "GitHub"]
     },
     {
-      "path": "src/i18n/he.json",
-      "language": "hebrew",
+      "path": "src/i18n/es.json",
+      "language": "spanish",
       "ignoreKeys": ["BULK_ACTIONS"],
       "allowlist": ["AWS", "SSO", "ID"]
     },
@@ -250,8 +250,8 @@ npx i18n-quality-lint --save
       "allowlist": ["API", "OAuth", "SaaS", "GitHub"]
     },
     {
-      "path": "src/i18n/he.json",
-      "language": "hebrew",
+      "path": "src/i18n/fr.json",
+      "language": "french",
       "ignoreKeys": ["LEGAL.TERMS_OF_SERVICE"],
       "allowlist": ["API", "OAuth"]
     }
@@ -339,7 +339,7 @@ Yes! The tool fully supports nested objects and arrays in your translation files
 Old configuration format is still supported:
 ```json
 {
-  "files": ["src/i18n/he.json"],
+  "files": ["src/i18n/es.json"],
   "ignoreKeys": ["BULK_ACTIONS"],
   "allowlist": ["AWS", "API"]
 }

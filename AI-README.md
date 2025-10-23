@@ -21,8 +21,8 @@ npx i18n-quality-lint
 {
   "files": [
     {
-      "path": "src/i18n/he.json",
-      "language": "hebrew",
+      "path": "src/i18n/es.json",
+      "language": "spanish",
       "ignoreKeys": ["BULK_ACTIONS", "NESTED.KEY.PATH"],
       "allowlist": ["API", "JWT"],
       "excludeFromSync": false
