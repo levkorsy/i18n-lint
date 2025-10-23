@@ -123,6 +123,9 @@ Create `.i18ncheckrc.json` in your project root:
 **Middle Eastern & African:**
 - `hebrew`, `arabic`, `georgian`, `armenian`, `amharic`, `swahili`
 
+**Fun & Fantasy Languages:**
+- `klingon`, `elvish`, `dothraki`, `valyrian`, `navi`, `minion`, `pirate`, `yoda`, `emoji`
+
 ### Backward Compatibility
 
 Old configuration format is still supported:
@@ -151,7 +154,7 @@ Old configuration format is still supported:
 
 ## Features
 
-- ✅ Detects untranslated strings in 50+ languages
+- ✅ Detects untranslated strings in 60+ languages (including Klingon! 🚀)
 - ✅ **Key synchronization checking** - finds missing/extra keys between files
 - ✅ Individual configuration per file
 - ✅ Configurable allowlist for technical terms

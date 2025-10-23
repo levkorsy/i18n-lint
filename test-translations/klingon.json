@@ -1,0 +1,20 @@
+{
+  "WELCOME": "nuqneH",
+  "LOGIN": "naDev",
+  "PASSWORD": "Password",
+  "EMAIL": "nav",
+  "SUBMIT": "nugh",
+  "CANCEL": "Cancel",
+  "SETTINGS": {
+    "PROFILE": "nugh naDev",
+    "NOTIFICATIONS": "Notifications",
+    "PRIVACY": "pegh"
+  },
+  "ERRORS": {
+    "REQUIRED": "poQ",
+    "INVALID_EMAIL": "Invalid nav format",
+    "SERVER_ERROR": "jup Dub"
+  },
+  "API": "API",
+  "JWT": "JWT"
+}

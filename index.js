@@ -58,7 +58,16 @@ const SUPPORTED_LANGUAGES = {
     amharic: { pattern: /[\u1200-\u137F]/, name: 'Amharic' },
     swahili: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Swahili' },
     malay: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Malay' },
-    indonesian: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Indonesian' }
+    indonesian: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Indonesian' },
+    klingon: { pattern: /[\uF8D0-\uF8FF]/, name: 'Klingon' },
+    elvish: { pattern: /[\u1E00-\u1EFF]/, name: 'Elvish (Sindarin)' },
+    dothraki: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Dothraki' },
+    valyrian: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'High Valyrian' },
+    navi: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: "Na'vi" },
+    minion: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Minionese' },
+    pirate: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Pirate Speak' },
+    yoda: { pattern: /[\u0041-\u005A\u0061-\u007A]/, name: 'Yoda Speak' },
+    emoji: { pattern: /[\u1F600-\u1F64F\u1F300-\u1F5FF\u1F680-\u1F6FF\u1F1E0-\u1F1FF]/, name: 'Emoji' }
 };
 
 const ABBR_PATTERN = /^[A-Z]+$/;

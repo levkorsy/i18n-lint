@@ -1,7 +1,7 @@
 {
   "name": "i18n-quality-lint",
   "version": "1.3.0",
-  "description": "Universal i18n quality linter: detect untranslated strings and sync keys across 50+ languages",
+  "description": "Universal i18n quality linter: detect untranslated strings and sync keys across 60+ languages (including Klingon!)",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -45,7 +45,12 @@
     "keys",
     "untranslated",
     "multilingual",
-    "internationalization"
+    "internationalization",
+    "klingon",
+    "elvish",
+    "dothraki",
+    "fantasy",
+    "fun"
   ],
   "author": "Lev Korsunskyi",
   "license": "MIT",
