@@ -5,9 +5,10 @@ Universal CLI tool for i18n quality checking: detects untranslated strings and s
 
 ## Core Capabilities
 - **Translation Validation**: Finds untranslated strings in translation files
-- **Key Synchronization**: Detects missing/extra keys between language files  
-- **Multi-language Support**: 18 languages (Hebrew, Arabic, Chinese, Russian, etc.)
-- **Flexible Configuration**: Per-file settings, allowlists, ignore patterns
+- **Key Synchronization**: Detects missing/extra keys between language files
+- **Key Order Checking**: Optional validation of key order consistency  
+- **Multi-language Support**: 60+ languages (Hebrew, Arabic, Chinese, Russian, Klingon, etc.)
+- **Flexible Configuration**: Per-file settings, allowlists, ignore patterns, nested key support
 
 ## Installation & Usage
 ```bash
@@ -22,11 +23,12 @@ npx i18n-quality-lint
     {
       "path": "src/i18n/he.json",
       "language": "hebrew",
-      "ignoreKeys": ["BULK_ACTIONS"],
+      "ignoreKeys": ["BULK_ACTIONS", "NESTED.KEY.PATH"],
       "allowlist": ["API", "JWT"],
       "excludeFromSync": false
     }
   ],
+  "checkKeyOrder": false,
   "failOnFindings": true,
   "outputDir": "output"
 }

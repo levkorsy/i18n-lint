@@ -1,187 +1,372 @@
-# i18n Quality Lint
+# 🌍 i18n Quality Lint
 
-A universal CLI tool to lint i18n translation files, detect untranslated strings, and sync keys across multiple languages.
+[![npm version](https://badge.fury.io/js/i18n-quality-lint.svg)](https://www.npmjs.com/package/i18n-quality-lint)
+[![Downloads](https://img.shields.io/npm/dm/i18n-quality-lint.svg)](https://www.npmjs.com/package/i18n-quality-lint)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Installation
+**The ultimate i18n quality linter** - Detect untranslated strings, sync keys, and maintain consistency across **60+ languages** (including Klingon! 🖖)
 
-### Global installation
+## ✨ What it does
+
+🔍 **Translation Quality**
+- Detects untranslated strings in 60+ languages
+- Supports nested JSON structures
+- Configurable allowlists for technical terms
+- Individual settings per file
+
+🔄 **Key Synchronization** 
+- Finds missing/extra keys between files
+- Optional key order checking
+- Excludes files from sync when needed
+- Smart reference file detection
+
+🎨 **Developer Experience**
+- Colored console output with issue highlighting
+- CI/CD friendly with exit codes
+- Zero dependencies
+- Comprehensive test coverage
+
+## 🚀 Quick Start
+
 ```bash
-npm install -g i18n-quality-lint
-```
-
-### Project installation (recommended)
-```bash
+# Install
 npm install --save-dev i18n-quality-lint
-```
 
-## Usage
+# Create config
+echo '{
+  "files": [
+    {
+      "path": "src/i18n/en.json",
+      "language": "english"
+    },
+    {
+      "path": "src/i18n/he.json",
+      "language": "hebrew"
+    }
+  ]
+}' > .i18ncheckrc.json
 
-### Quick check (console only)
-```bash
-# Global
-i18n-quality-lint
-
-# Project installation
+# Run check
 npx i18n-quality-lint
-
-# Or add to package.json scripts:
-# "i18n:check": "i18n-quality-lint"
-npm run i18n:check
 ```
 
-### Check and save results
-```bash
-# Global
-i18n-quality-lint --save
-
-# Project installation
-npx i18n-quality-lint --save
-
-# Or add to package.json scripts:
-# "i18n:check:save": "i18n-quality-lint --save"
-npm run i18n:check:save
-```
-
-## Example Output
+## 📊 Example Output
 
 ```bash
 $ npx i18n-quality-lint
 
 Checking: src/i18n/he.json (Hebrew)
 Found: 2 untranslated values
-  PASSWORD: "Password"
+  PASSWORD: "Password"           # ← English in Hebrew file
   CANCEL: "Cancel"
 
-Checking: src/i18n/en.json (English)
+Checking: src/i18n/en.json (English)  
 Found: 1 untranslated values
-  WELCOME: "ברוכים הבאים"
+  WELCOME: "ברוכים הבאים"        # ← Hebrew in English file
 
 🔄 Checking key synchronization between files...
-Found: 1 synchronization issues
+Found: 2 synchronization issues
   src/i18n/he.json:
     Missing keys (1):
-      EXTRA_KEY
+      EXTRA_KEY                   # ← Key exists in EN but not HE
+    Key order issues (1):         # ← Optional: different key order
+      Position 1: expected 'WELCOME', found 'LOGIN'
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 Create `.i18ncheckrc.json` in your project root:
 
+### 📝 Basic Configuration
 ```json
 {
   "files": [
     {
-      "path": "src/i18n/translations/he.json",
-      "language": "hebrew",
-      "ignoreKeys": ["BULK_ACTIONS"],
-      "allowlist": ["AWS", "SSO", "JWT", "ID", "N/A", "API"]
+      "path": "src/i18n/en.json",
+      "language": "english"
     },
     {
-      "path": "src/i18n/translations/en.json",
-      "language": "english",
-      "ignoreKeys": [],
-      "allowlist": ["Google", "API"]
-    },
-    {
-      "path": "src/i18n/translations/partial.json",
-      "language": "french",
-      "ignoreKeys": [],
-      "allowlist": [],
-      "excludeFromSync": true
+      "path": "src/i18n/he.json",
+      "language": "hebrew"
     }
-  ],
-  "failOnFindings": true,
-  "outputDir": "output"
+  ]
 }
 ```
 
-### Configuration Options
+### 🔧 Advanced Configuration
+```json
+{
+  "files": [
+    {
+      "path": "src/i18n/en.json",
+      "language": "english",
+      "ignoreKeys": ["DEBUG_MODE", "ADMIN.SECRET_PANEL"],
+      "allowlist": ["API", "JWT", "OAuth", "GitHub"]
+    },
+    {
+      "path": "src/i18n/he.json",
+      "language": "hebrew",
+      "ignoreKeys": ["BULK_ACTIONS"],
+      "allowlist": ["AWS", "SSO", "ID"]
+    },
+    {
+      "path": "src/i18n/partial.json",
+      "language": "french",
+      "excludeFromSync": true
+    }
+  ],
+  "checkKeyOrder": true,
+  "failOnFindings": true,
+  "outputDir": "i18n-reports"
+}
+```
 
-- `files` - Array of file configuration objects
-  - `path` - Path to translation file
-  - `language` - Target language (see supported languages below)
-  - `ignoreKeys` - Keys to skip for this file
-  - `allowlist` - Allowed values for this file
-  - `excludeFromSync` - Exclude this file from key synchronization checking (optional)
-- `failOnFindings` - Exit with error code if issues found (useful for CI/CD)
-- `outputDir` - Directory to save results
+### 📝 Configuration Options
 
-### Supported Languages
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| **files** | `Array<FileConfig>` | `[]` | List of translation files to check |
+| **checkKeyOrder** | `boolean` | `false` | Check if keys are in same order across files |
+| **failOnFindings** | `boolean` | `false` | Exit with error code when issues found (CI/CD) |
+| **outputDir** | `string` | `"output"` | Directory to save results with `--save` |
 
-**European Languages:**
-- `english`, `french`, `german`, `spanish`, `italian`, `portuguese`, `dutch`
-- `polish`, `czech`, `hungarian`, `romanian`, `croatian`, `slovenian`, `slovak`
-- `finnish`, `swedish`, `norwegian`, `danish`, `lithuanian`, `latvian`, `estonian`
-- `turkish`, `greek`, `bulgarian`, `ukrainian`, `serbian`
+#### 📁 FileConfig Options
 
-**Asian Languages:**
-- `chinese`, `japanese`, `korean`, `thai`, `vietnamese`
-- `hindi`, `bengali`, `tamil`, `telugu`, `malayalam`, `kannada`, `gujarati`
-- `punjabi`, `marathi`, `nepali`, `urdu`, `persian`, `sinhala`
-- `burmese`, `khmer`, `lao`, `malay`, `indonesian`
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| **path** | `string` | - | Path to translation file |
+| **language** | `string` | - | Target language (see supported languages) |
+| **ignoreKeys** | `string[]` | `[]` | Keys to skip (supports nested: `"PARENT.CHILD"`) |
+| **allowlist** | `string[]` | `[]` | Values allowed in any language |
+| **excludeFromSync** | `boolean` | `false` | Skip this file in synchronization checks |
 
-**Middle Eastern & African:**
-- `hebrew`, `arabic`, `georgian`, `armenian`, `amharic`, `swahili`
+## 🌍 Supported Languages (60+)
 
-**Fun & Fantasy Languages:**
-- `klingon`, `elvish`, `dothraki`, `valyrian`, `navi`, `minion`, `pirate`, `yoda`, `emoji`
+<details>
+<summary><strong>🇪🇺 European Languages (25)</strong></summary>
 
-### Backward Compatibility
+`english` `french` `german` `spanish` `italian` `portuguese` `dutch` `polish` `czech` `hungarian` `romanian` `croatian` `slovenian` `slovak` `finnish` `swedish` `norwegian` `danish` `lithuanian` `latvian` `estonian` `turkish` `greek` `bulgarian` `ukrainian` `serbian`
+</details>
+
+<details>
+<summary><strong>🇨🇳 Asian Languages (20)</strong></summary>
+
+`chinese` `japanese` `korean` `thai` `vietnamese` `hindi` `bengali` `tamil` `telugu` `malayalam` `kannada` `gujarati` `punjabi` `marathi` `nepali` `sinhala` `burmese` `khmer` `lao` `malay` `indonesian`
+</details>
+
+<details>
+<summary><strong>🌍 Middle Eastern & African (7)</strong></summary>
+
+`hebrew` `arabic` `persian` `urdu` `georgian` `armenian` `amharic` `swahili`
+</details>
+
+<details>
+<summary><strong>🚀 Fun & Fantasy Languages (9)</strong></summary>
+
+`klingon` `elvish` `dothraki` `valyrian` `navi` `minion` `pirate` `yoda` `emoji`
+
+*Because why not make i18n more fun?* 🎉
+</details>
+
+## 📦 Installation
+
+```bash
+# Project installation (recommended)
+npm install --save-dev i18n-quality-lint
+
+# Global installation
+npm install -g i18n-quality-lint
+```
+
+## 💻 Usage
+
+### Command Line
+```bash
+# Quick check (console output only)
+npx i18n-quality-lint
+
+# Check and save results to file
+npx i18n-quality-lint --save
+```
+
+### Package.json Scripts
+```json
+{
+  "scripts": {
+    "i18n:check": "i18n-quality-lint",
+    "i18n:check:save": "i18n-quality-lint --save",
+    "i18n:ci": "i18n-quality-lint --fail-on-findings"
+  }
+}
+```
+
+### CI/CD Integration
+```yaml
+# GitHub Actions example
+- name: Check i18n quality
+  run: npx i18n-quality-lint
+```
+
+## 💼 Use Cases
+
+🏢 **Enterprise Projects**
+- Multi-language applications with 10+ locales
+- Ensure consistency across large translation teams
+- Automated quality checks in CI/CD pipelines
+
+👥 **Development Teams**
+- Catch translation issues before production
+- Maintain synchronized keys across all languages
+- Standardize technical terms and abbreviations
+
+🚀 **Open Source Projects**
+- Community-driven translations
+- Validate contributor submissions
+- Maintain translation quality standards
+
+## 🎆 Real-world Examples
+
+### E-commerce Platform
+```json
+{
+  "files": [
+    { "path": "locales/en.json", "language": "english" },
+    { "path": "locales/es.json", "language": "spanish" },
+    { "path": "locales/fr.json", "language": "french" },
+    { "path": "locales/de.json", "language": "german" }
+  ],
+  "checkKeyOrder": true,
+  "failOnFindings": true
+}
+```
+
+### SaaS Application
+```json
+{
+  "files": [
+    {
+      "path": "src/i18n/en.json",
+      "language": "english",
+      "allowlist": ["API", "OAuth", "SaaS", "GitHub"]
+    },
+    {
+      "path": "src/i18n/he.json",
+      "language": "hebrew",
+      "ignoreKeys": ["LEGAL.TERMS_OF_SERVICE"],
+      "allowlist": ["API", "OAuth"]
+    }
+  ]
+}
+```
+
+## 🔧 Advanced Features
+
+### Nested Key Support
+```json
+{
+  "ignoreKeys": [
+    "ADMIN.SECRET_PANEL",           // Ignore specific nested key
+    "DEBUG",                        // Ignore entire section
+    "LEGAL.TERMS.SECTION_1.CLAUSE_A" // Deep nesting support
+  ]
+}
+```
+
+### Key Order Checking
+```json
+{
+  "checkKeyOrder": true  // Ensures consistent key order across files
+}
+```
+
+### Selective Sync Exclusion
+```json
+{
+  "files": [
+    { "path": "main.json", "language": "english" },
+    { 
+      "path": "partial.json", 
+      "language": "french",
+      "excludeFromSync": true  // Skip sync checks for this file
+    }
+  ]
+}
+```
+
+## ❓ FAQ
+
+<details>
+<summary><strong>How do I ignore technical terms like "API" or "OAuth"?</strong></summary>
+
+Use the `allowlist` option:
+```json
+{
+  "allowlist": ["API", "OAuth", "JWT", "GitHub", "npm"]
+}
+```
+</details>
+
+<details>
+<summary><strong>Can I check only specific keys and ignore others?</strong></summary>
+
+Yes, use `ignoreKeys` with support for nested paths:
+```json
+{
+  "ignoreKeys": ["DEBUG_MODE", "ADMIN.SECRET_PANEL", "LEGAL.TERMS"]
+}
+```
+</details>
+
+<details>
+<summary><strong>How do I integrate with CI/CD?</strong></summary>
+
+Set `failOnFindings: true` and the tool will exit with code 1 when issues are found:
+```json
+{
+  "failOnFindings": true
+}
+```
+</details>
+
+<details>
+<summary><strong>Does it work with nested JSON structures?</strong></summary>
+
+Yes! The tool fully supports nested objects and arrays in your translation files.
+</details>
+
+## 🔄 Backward Compatibility
 
 Old configuration format is still supported:
 ```json
 {
   "files": ["src/i18n/he.json"],
   "ignoreKeys": ["BULK_ACTIONS"],
-  "allowlist": ["AWS", "API"],
-  "failOnFindings": true
+  "allowlist": ["AWS", "API"]
 }
 ```
 
-## Example package.json scripts
-
-```json
-{
-  "scripts": {
-    "i18n:check": "i18n-quality-lint",
-    "i18n:check:save": "i18n-quality-lint --save"
-  },
-  "devDependencies": {
-    "i18n-quality-lint": "^1.2.0"
-  }
-}
-```
-
-## Features
-
-- ✅ Detects untranslated strings in 60+ languages (including Klingon! 🚀)
-- ✅ **Key synchronization checking** - finds missing/extra keys between files
-- ✅ Individual configuration per file
-- ✅ Configurable allowlist for technical terms
-- ✅ Supports multiple files and languages
-- ✅ Colored console output with issue highlighting
-- ✅ CI/CD friendly with automated testing
-- ✅ Zero dependencies
-- ✅ Backward compatible
-- ✅ Comprehensive test coverage
-
-## Testing
-
-```bash
-# Run unit tests
-npm test
-
-# Run integration tests
-npm run test:integration
-
-# Run all tests
-npm run test:all
-```
-
-## AI Agents & LLM Integration
+## 🤖 AI Agents & LLM Integration
 
 For AI agents and LLM integration, see [AI-README.md](AI-README.md) for structured documentation.
 
-## License
+## 📊 Stats
 
-MIT
+- ✅ **60+ languages** supported
+- ✅ **Zero dependencies** 
+- ✅ **12 comprehensive tests**
+- ✅ **CI/CD ready**
+- ✅ **7.3kB package size**
+
+## 📝 License
+
+MIT © [Lev Korsunskyi](https://github.com/levkorsy)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the i18n community**
+
+[Report Bug](https://github.com/levkorsy/i18n-lint/issues) • [Request Feature](https://github.com/levkorsy/i18n-lint/issues) • [Contribute](https://github.com/levkorsy/i18n-lint/pulls)
+
+</div>
