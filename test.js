@@ -170,4 +170,27 @@ assert.ok(filteredConfigs.some(c => c.path === 'file3.json'), 'Should include fi
 assert.ok(!filteredConfigs.some(c => c.path === 'file2.json'), 'Should exclude file2.json');
 console.log('✅ excludeFromSync functionality tests passed\n');
 
+// Test 12: Nested ignoreKeys functionality
+console.log('1️⃣2️⃣ Testing nested ignoreKeys functionality...');
+const nestedIgnoreTestData = {
+    'KEY1': 'value1',
+    'PARENT': {
+        'CHILD1': 'child1',
+        'CHILD2': {
+            'GRANDCHILD': 'grandchild'
+        }
+    },
+    'OTHER': 'other'
+};
+const nestedIgnoreConfig = { 
+    language: 'hebrew', 
+    ignoreKeys: ['PARENT.CHILD2.GRANDCHILD', 'OTHER'], 
+    allowlist: [] 
+};
+const nestedIgnoreResults = findUntranslatedValues(nestedIgnoreTestData, nestedIgnoreConfig);
+assert.strictEqual(nestedIgnoreResults.OTHER, undefined, 'Should ignore top-level key OTHER');
+assert.strictEqual(nestedIgnoreResults.PARENT?.CHILD2?.GRANDCHILD, undefined, 'Should ignore nested key PARENT.CHILD2.GRANDCHILD');
+assert.strictEqual(nestedIgnoreResults.PARENT?.CHILD1, 'child1', 'Should not ignore non-ignored nested key');
+console.log('✅ Nested ignoreKeys functionality tests passed\n');
+
 console.log('🎉 All tests passed successfully!');

@@ -152,21 +152,28 @@ try {
     process.exit(1);
 }
 
-function findUntranslatedValues(data, config) {
+function findUntranslatedValues(data, config, prefix = '') {
     const untranslatedValues = {};
     const allowlistSet = new Set(config.allowlist);
     const ignoreKeysSet = new Set(config.ignoreKeys);
     
     for (const key in data) {
         const value = data[key];
+        const fullKey = prefix ? `${prefix}.${key}` : key;
+        
+        // Check if this key should be ignored (supports nested keys)
+        if (ignoreKeysSet.has(key) || ignoreKeysSet.has(fullKey)) {
+            continue;
+        }
+        
         if (typeof value === 'string' && value !== '' && 
             !allowlistSet.has(value) && 
             !isTargetLanguage(value, config.language) && 
             !isAbbr(value) && 
             !isAbbrWithSpaces(value)) {
             untranslatedValues[key] = value;
-        } else if (typeof value === 'object' && value !== null && !ignoreKeysSet.has(key)) {
-            const nestedUntranslatedValues = findUntranslatedValues(value, config);
+        } else if (typeof value === 'object' && value !== null) {
+            const nestedUntranslatedValues = findUntranslatedValues(value, config, fullKey);
             if (Object.keys(nestedUntranslatedValues).length > 0) {
                 untranslatedValues[key] = nestedUntranslatedValues;
             }
