@@ -11,6 +11,9 @@
     "test": "node test.js",
     "test:integration": "node test-integration.js",
     "test:all": "npm test && npm run test:integration",
+    "precommit": "npm run test:all",
+    "prepublishOnly": "npm run test:all",
+    "setup-hooks": "node setup-hooks.js",
     "check": "node index.js",
     "check:save": "node index.js --save",
     "publish:npm": "npm publish"

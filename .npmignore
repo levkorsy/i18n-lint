@@ -17,5 +17,6 @@ output/
 .gitignore
 
 # Development files
+setup-hooks.js
 *.log
 npm-debug.log*
