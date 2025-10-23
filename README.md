@@ -1,6 +1,6 @@
 # i18n Quality Lint
 
-A universal CLI tool to lint i18n translation files and detect untranslated strings in multiple languages.
+A universal CLI tool to lint i18n translation files, detect untranslated strings, and sync keys across multiple languages.
 
 ## Installation
 
@@ -40,6 +40,27 @@ npx i18n-quality-lint --save
 # Or add to package.json scripts:
 # "i18n:check:save": "i18n-quality-lint --save"
 npm run i18n:check:save
+```
+
+## Example Output
+
+```bash
+$ npx i18n-quality-lint
+
+Checking: src/i18n/he.json (Hebrew)
+Found: 2 untranslated values
+  PASSWORD: "Password"
+  CANCEL: "Cancel"
+
+Checking: src/i18n/en.json (English)
+Found: 1 untranslated values
+  WELCOME: "ברוכים הבאים"
+
+🔄 Checking key synchronization between files...
+Found: 1 synchronization issues
+  src/i18n/he.json:
+    Missing keys (1):
+      EXTRA_KEY
 ```
 
 ## Configuration
@@ -112,7 +133,7 @@ Old configuration format is still supported:
     "i18n:check:save": "i18n-quality-lint --save"
   },
   "devDependencies": {
-    "i18n-quality-lint": "^1.0.1"
+    "i18n-quality-lint": "^1.2.0"
   }
 }
 ```
@@ -120,11 +141,12 @@ Old configuration format is still supported:
 ## Features
 
 - ✅ Detects untranslated strings in 18+ languages
+- ✅ **Key synchronization checking** - finds missing/extra keys between files
 - ✅ Individual configuration per file
 - ✅ Configurable allowlist for technical terms
 - ✅ Supports multiple files and languages
-- ✅ Colored console output
-- ✅ CI/CD friendly
+- ✅ Colored console output with issue highlighting
+- ✅ CI/CD friendly with automated testing
 - ✅ Zero dependencies
 - ✅ Backward compatible
 - ✅ Comprehensive test coverage

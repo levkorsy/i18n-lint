@@ -1,7 +1,7 @@
 {
   "name": "i18n-quality-lint",
   "version": "1.2.0",
-  "description": "A universal tool to check i18n translation files for untranslated strings in multiple languages",
+  "description": "Universal i18n quality linter: detect untranslated strings and sync keys across 18+ languages",
   "main": "index.js",
   "type": "module",
   "bin": {
@@ -20,10 +20,20 @@
   },
   "keywords": [
     "i18n",
-    "hebrew",
     "translation",
+    "lint",
+    "quality",
     "checker",
-    "localization"
+    "localization",
+    "hebrew",
+    "arabic",
+    "chinese",
+    "russian",
+    "sync",
+    "keys",
+    "untranslated",
+    "multilingual",
+    "internationalization"
   ],
   "author": "Lev Korsunskyi",
   "license": "MIT",
