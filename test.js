@@ -23,6 +23,8 @@ const findUntranslatedValues = createFunction('findUntranslatedValues', indexCon
 const countUntranslatedValues = createFunction('countUntranslatedValues', indexContent);
 const isAbbr = createFunction('isAbbr', indexContent);
 const isAbbrWithSpaces = createFunction('isAbbrWithSpaces', indexContent);
+const getAllKeys = createFunction('getAllKeys', indexContent);
+const checkKeySynchronization = createFunction('checkKeySynchronization', indexContent);
 
 // Test data
 const testData = {
@@ -119,5 +121,36 @@ expectedLanguages.forEach(lang => {
     assert.ok(SUPPORTED_LANGUAGES[lang].name, `${lang} should have name`);
 });
 console.log('✅ Supported languages tests passed\n');
+
+// Test 9: Key synchronization
+console.log('9️⃣ Testing key synchronization...');
+const syncTestData = {
+    'file1.json': { 'KEY1': 'value1', 'KEY2': 'value2', 'NESTED': { 'SUB1': 'sub1' } },
+    'file2.json': { 'KEY1': 'value1', 'KEY3': 'value3', 'NESTED': { 'SUB1': 'sub1' } },
+    'file3.json': { 'KEY1': 'value1', 'KEY2': 'value2', 'NESTED': { 'SUB1': 'sub1', 'SUB2': 'sub2' } }
+};
+const syncConfigs = [
+    { path: 'file1.json' },
+    { path: 'file2.json' },
+    { path: 'file3.json' }
+];
+const syncIssues = checkKeySynchronization(syncTestData, syncConfigs);
+assert.ok(syncIssues.length > 0, 'Should find synchronization issues');
+assert.ok(syncIssues.some(issue => issue.type === 'missing'), 'Should find missing keys');
+assert.ok(syncIssues.some(issue => issue.type === 'extra'), 'Should find extra keys');
+console.log('✅ Key synchronization tests passed\n');
+
+// Test 10: Get all keys function
+console.log('🔟 Testing getAllKeys function...');
+const keysTestData = {
+    'KEY1': 'value1',
+    'NESTED': {
+        'SUB1': 'sub1',
+        'SUB2': 'sub2'
+    }
+};
+const allKeys = getAllKeys(keysTestData);
+assert.deepStrictEqual(allKeys.sort(), ['KEY1', 'NESTED.SUB1', 'NESTED.SUB2'], 'Should extract all nested keys');
+console.log('✅ getAllKeys function tests passed\n');
 
 console.log('🎉 All tests passed successfully!');

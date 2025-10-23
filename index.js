@@ -28,6 +28,7 @@ const shouldSaveFile = process.argv.includes('--save');
 try {
     const config = JSON.parse(await readFile('.i18ncheckrc.json', 'utf8'));
     const allFindings = {};
+    const allTranslationData = {};
     let totalIssues = 0;
     
     // Support both old and new config formats
@@ -50,6 +51,7 @@ try {
         
         console.log(`Checking: ${filePath} (${SUPPORTED_LANGUAGES[language].name})`);
         const data = JSON.parse(await readFile(filePath, 'utf8'));
+        allTranslationData[filePath] = data;
         const untranslatedValues = findUntranslatedValues(data, { language, ignoreKeys, allowlist });
         
         if (Object.keys(untranslatedValues).length > 0) {
@@ -61,6 +63,20 @@ try {
             totalIssues += count;
         } else {
             console.log('No issues found!');
+        }
+        console.log('');
+    }
+    
+    // Check key synchronization between files
+    if (filesToCheck.length > 1) {
+        console.log('🔄 Checking key synchronization between files...');
+        const syncIssues = checkKeySynchronization(allTranslationData, filesToCheck);
+        if (syncIssues.length > 0) {
+            console.log(`Found: ${syncIssues.length} synchronization issues`);
+            displaySyncIssues(syncIssues);
+            totalIssues += syncIssues.length;
+        } else {
+            console.log('✅ All files have synchronized keys!');
         }
         console.log('');
     }
@@ -145,5 +161,104 @@ function displayUntranslatedValues(data, prefix = '') {
         } else {
             console.log(`  ${colors.yellow}${fullKey}${colors.reset}: ${colors.red}"${data[key]}"${colors.reset}`);
         }
+    }
+}
+
+function getAllKeys(obj, prefix = '') {
+    const keys = [];
+    for (const key in obj) {
+        const fullKey = prefix ? `${prefix}.${key}` : key;
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+            keys.push(...getAllKeys(obj[key], fullKey));
+        } else {
+            keys.push(fullKey);
+        }
+    }
+    return keys;
+}
+
+function checkKeySynchronization(allData, fileConfigs) {
+    const issues = [];
+    const fileKeys = {};
+    
+    // Get all keys from each file
+    for (const config of fileConfigs) {
+        const filePath = config.path;
+        const data = allData[filePath];
+        fileKeys[filePath] = getAllKeys(data);
+    }
+    
+    // Find reference file (first file or file with most keys)
+    const filePaths = Object.keys(fileKeys);
+    const referenceFile = filePaths.reduce((ref, current) => 
+        fileKeys[current].length > fileKeys[ref].length ? current : ref
+    );
+    const referenceKeys = new Set(fileKeys[referenceFile]);
+    
+    // Check each file against reference
+    for (const filePath of filePaths) {
+        if (filePath === referenceFile) continue;
+        
+        const currentKeys = new Set(fileKeys[filePath]);
+        
+        // Find missing keys
+        for (const key of referenceKeys) {
+            if (!currentKeys.has(key)) {
+                issues.push({
+                    type: 'missing',
+                    file: filePath,
+                    key: key,
+                    reference: referenceFile
+                });
+            }
+        }
+        
+        // Find extra keys
+        for (const key of currentKeys) {
+            if (!referenceKeys.has(key)) {
+                issues.push({
+                    type: 'extra',
+                    file: filePath,
+                    key: key,
+                    reference: referenceFile
+                });
+            }
+        }
+    }
+    
+    return issues;
+}
+
+function displaySyncIssues(issues) {
+    const colors = {
+        red: '\x1b[31m',
+        yellow: '\x1b[33m',
+        blue: '\x1b[34m',
+        reset: '\x1b[0m'
+    };
+    
+    const groupedIssues = issues.reduce((acc, issue) => {
+        if (!acc[issue.file]) acc[issue.file] = { missing: [], extra: [] };
+        acc[issue.file][issue.type].push(issue.key);
+        return acc;
+    }, {});
+    
+    for (const [filePath, fileIssues] of Object.entries(groupedIssues)) {
+        console.log(`  ${colors.blue}${filePath}${colors.reset}:`);
+        
+        if (fileIssues.missing.length > 0) {
+            console.log(`    ${colors.red}Missing keys (${fileIssues.missing.length}):${colors.reset}`);
+            fileIssues.missing.forEach(key => {
+                console.log(`      ${colors.yellow}${key}${colors.reset}`);
+            });
+        }
+        
+        if (fileIssues.extra.length > 0) {
+            console.log(`    ${colors.red}Extra keys (${fileIssues.extra.length}):${colors.reset}`);
+            fileIssues.extra.forEach(key => {
+                console.log(`      ${colors.yellow}${key}${colors.reset}`);
+            });
+        }
+        console.log('');
     }
 }

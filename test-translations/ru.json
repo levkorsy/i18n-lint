@@ -17,5 +17,6 @@
   },
   "API": "API",
   "JWT": "JWT",
-  "GOOGLE": "Google"
+  "GOOGLE": "Google",
+  "RUSSIAN_ONLY": "Только русский"
 }

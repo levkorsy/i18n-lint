@@ -1,6 +1,6 @@
 {
   "name": "i18n-quality-lint",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A universal tool to check i18n translation files for untranslated strings in multiple languages",
   "main": "index.js",
   "type": "module",
