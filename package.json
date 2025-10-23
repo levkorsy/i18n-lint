@@ -5,19 +5,25 @@
   "main": "index.js",
   "type": "module",
   "bin": {
-    "i18n-quality-lint": "./index.js"
+    "i18n-quality-lint": "index.js"
   },
   "scripts": {
     "check": "node index.js",
     "check:save": "node index.js --save",
     "publish:npm": "npm publish"
   },
-  "keywords": ["i18n", "hebrew", "translation", "checker", "localization"],
+  "keywords": [
+    "i18n",
+    "hebrew",
+    "translation",
+    "checker",
+    "localization"
+  ],
   "author": "Lev Korsunskyi",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/levkorsy/i18n-lint.git"
+    "url": "git+https://github.com/levkorsy/i18n-lint.git"
   },
   "engines": {
     "node": ">=14.0.0"
