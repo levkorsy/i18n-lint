@@ -1,6 +1,6 @@
 {
   "name": "i18n-quality-lint",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A tool to check Hebrew translation files for untranslated strings",
   "main": "index.js",
   "type": "module",

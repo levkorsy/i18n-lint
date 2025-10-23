@@ -19,6 +19,9 @@ try {
             const totalNonHebrewValues = countNonHebrewValues(nonHebrewValues);
             console.log("Found:", totalNonHebrewValues);
             
+            // Always display found issues in console
+            displayNonHebrewValues(nonHebrewValues);
+            
             if (shouldSaveFile) {
                 const currentDate = new Date().toISOString().split('T')[0];
                 const outputPath = join(config.outputDir, `nonHebrewValues_${currentDate}.json`);
@@ -87,4 +90,21 @@ function isAbbrWithSpaces(value) {
     // Check for abbreviations with spaces (e.g., "IMAP HOST")
     const abbrWithSpacesPattern = /^[A-Z\s]+$/;
     return abbrWithSpacesPattern.test(value);
+}
+
+function displayNonHebrewValues(data, prefix = '') {
+    const colors = {
+        red: '\x1b[31m',
+        yellow: '\x1b[33m',
+        reset: '\x1b[0m'
+    };
+    
+    for (const key in data) {
+        const fullKey = prefix ? `${prefix}.${key}` : key;
+        if (typeof data[key] === 'object' && data[key] !== null) {
+            displayNonHebrewValues(data[key], fullKey);
+        } else {
+            console.log(`  ${colors.yellow}${fullKey}${colors.reset}: ${colors.red}"${data[key]}"${colors.reset}`);
+        }
+    }
 }
