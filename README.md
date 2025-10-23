@@ -164,6 +164,10 @@ npm run test:integration
 npm run test:all
 ```
 
+## AI Agents & LLM Integration
+
+For AI agents and LLM integration, see [AI-README.md](AI-README.md) for structured documentation.
+
 ## License
 
 MIT
