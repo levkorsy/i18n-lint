@@ -1,6 +1,6 @@
 # i18n Quality Lint
 
-A lightweight CLI tool to lint i18n translation files and detect untranslated strings.
+A universal CLI tool to lint i18n translation files and detect untranslated strings in multiple languages.
 
 ## Installation
 
@@ -49,10 +49,19 @@ Create `.i18ncheckrc.json` in your project root:
 ```json
 {
   "files": [
-    "src/i18n/translations/he.json"
+    {
+      "path": "src/i18n/translations/he.json",
+      "language": "hebrew",
+      "ignoreKeys": ["BULK_ACTIONS"],
+      "allowlist": ["AWS", "SSO", "JWT", "ID", "N/A", "API"]
+    },
+    {
+      "path": "src/i18n/translations/en.json",
+      "language": "english",
+      "ignoreKeys": [],
+      "allowlist": ["Google", "API"]
+    }
   ],
-  "ignoreKeys": ["BULK_ACTIONS"],
-  "allowlist": ["AWS", "SSO", "JWT", "ID", "N/A", "API", "Google"],
   "failOnFindings": true,
   "outputDir": "output"
 }
@@ -60,11 +69,31 @@ Create `.i18ncheckrc.json` in your project root:
 
 ### Configuration Options
 
-- `files` - Array of translation files to check
-- `ignoreKeys` - Keys to skip during checking
-- `allowlist` - Values that are allowed (technical terms, abbreviations)
+- `files` - Array of file configuration objects
+  - `path` - Path to translation file
+  - `language` - Target language (see supported languages below)
+  - `ignoreKeys` - Keys to skip for this file
+  - `allowlist` - Allowed values for this file
 - `failOnFindings` - Exit with error code if issues found (useful for CI/CD)
 - `outputDir` - Directory to save results
+
+### Supported Languages
+
+- `english`, `hebrew`, `arabic`, `russian`, `chinese`, `japanese`, `korean`
+- `french`, `german`, `spanish`, `italian`, `portuguese`, `dutch`
+- `polish`, `czech`, `thai`, `hindi`, `greek`
+
+### Backward Compatibility
+
+Old configuration format is still supported:
+```json
+{
+  "files": ["src/i18n/he.json"],
+  "ignoreKeys": ["BULK_ACTIONS"],
+  "allowlist": ["AWS", "API"],
+  "failOnFindings": true
+}
+```
 
 ## Example package.json scripts
 
@@ -82,11 +111,14 @@ Create `.i18ncheckrc.json` in your project root:
 
 ## Features
 
-- ✅ Detects untranslated strings in Hebrew translation files
+- ✅ Detects untranslated strings in 18+ languages
+- ✅ Individual configuration per file
 - ✅ Configurable allowlist for technical terms
-- ✅ Supports multiple files
+- ✅ Supports multiple files and languages
+- ✅ Colored console output
 - ✅ CI/CD friendly
 - ✅ Zero dependencies
+- ✅ Backward compatible
 
 ## License
 

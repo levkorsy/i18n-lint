@@ -1,0 +1,21 @@
+{
+  "WELCOME": "Welcome",
+  "LOGIN": "Login",
+  "PASSWORD": "Password",
+  "EMAIL": "Email",
+  "SUBMIT": "Submit",
+  "CANCEL": "Cancel",
+  "SETTINGS": {
+    "PROFILE": "Profile",
+    "NOTIFICATIONS": "התראות",
+    "PRIVACY": "Privacy"
+  },
+  "ERRORS": {
+    "REQUIRED": "Required field",
+    "INVALID_EMAIL": "כתובת מייל לא תקינה",
+    "SERVER_ERROR": "Server error"
+  },
+  "API": "API",
+  "JWT": "JWT",
+  "GOOGLE": "Google"
+}

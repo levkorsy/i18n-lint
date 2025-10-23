@@ -1,0 +1,21 @@
+{
+  "WELCOME": "ברוכים הבאים",
+  "LOGIN": "התחברות",
+  "PASSWORD": "Password",
+  "EMAIL": "כתובת מייל",
+  "SUBMIT": "שלח",
+  "CANCEL": "Cancel",
+  "SETTINGS": {
+    "PROFILE": "פרופיל",
+    "NOTIFICATIONS": "Notifications",
+    "PRIVACY": "פרטיות"
+  },
+  "ERRORS": {
+    "REQUIRED": "שדה חובה",
+    "INVALID_EMAIL": "Invalid email format",
+    "SERVER_ERROR": "שגיאת שרת"
+  },
+  "BULK_ACTIONS": "Bulk Actions",
+  "API": "API",
+  "JWT": "JWT"
+}

@@ -1,0 +1,21 @@
+{
+  "WELCOME": "Добро пожаловать",
+  "LOGIN": "Вход",
+  "PASSWORD": "Пароль",
+  "EMAIL": "Email",
+  "SUBMIT": "Отправить",
+  "CANCEL": "Отмена",
+  "SETTINGS": {
+    "PROFILE": "Профиль",
+    "NOTIFICATIONS": "Уведомления",
+    "PRIVACY": "Privacy"
+  },
+  "ERRORS": {
+    "REQUIRED": "Обязательное поле",
+    "INVALID_EMAIL": "Неверный формат email",
+    "SERVER_ERROR": "Server error"
+  },
+  "API": "API",
+  "JWT": "JWT",
+  "GOOGLE": "Google"
+}

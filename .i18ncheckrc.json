@@ -1,18 +1,24 @@
 {
   "files": [
-    "C:\\Users\\lev_k\\Development\\Projects\\hrm-candidate\\src\\core\\i18n\\translations\\he.json"
+    {
+      "path": "test-translations/he.json",
+      "language": "hebrew",
+      "ignoreKeys": ["BULK_ACTIONS"],
+      "allowlist": ["API", "JWT"]
+    },
+    {
+      "path": "test-translations/en.json",
+      "language": "english",
+      "ignoreKeys": [],
+      "allowlist": ["API", "JWT", "Google"]
+    },
+    {
+      "path": "test-translations/ru.json",
+      "language": "russian",
+      "ignoreKeys": [],
+      "allowlist": ["API", "JWT", "Google", "Email"]
+    }
   ],
-  "ignoreKeys": ["BULK_ACTIONS"],
-  "allowlist": [
-    "AWS", "SSO", "JWT", "ID", "N/A", "API", "Google",
-    "Tenant ID", "Client secret", "Client ID", "{tabName}",
-    "System high", "System normal", "{ariaLabel} chip", "Esc", "18+",
-    "Directory (tenant) ID", "Application (client) ID", "Secret value",
-    "General status", "Authorization", "Permissions: {list}",
-    "Mailbox exists", "Inbox folder", "Archive folder",
-    "Can read messages", "Error message: {message}",
-    "Folder ID: {id}", "Total items {count}", "App ID", "Office 365"
-  ],
-  "failOnFindings": true,
+  "failOnFindings": false,
   "outputDir": "output"
 }
