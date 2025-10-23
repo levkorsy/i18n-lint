@@ -23,6 +23,9 @@ const SUPPORTED_LANGUAGES = {
     greek: { pattern: /[\u0370-\u03FF]/, name: 'Greek' }
 };
 
+const ABBR_PATTERN = /^[A-Z]+$/;
+const ABBR_WITH_SPACES_PATTERN = /^[A-Z\s]+$/;
+
 const shouldSaveFile = process.argv.includes('--save');
 
 try {
@@ -104,15 +107,18 @@ try {
 
 function findUntranslatedValues(data, config) {
     const untranslatedValues = {};
+    const allowlistSet = new Set(config.allowlist);
+    const ignoreKeysSet = new Set(config.ignoreKeys);
+    
     for (const key in data) {
         const value = data[key];
         if (typeof value === 'string' && value !== '' && 
-            !config.allowlist.includes(value) && 
+            !allowlistSet.has(value) && 
             !isTargetLanguage(value, config.language) && 
             !isAbbr(value) && 
             !isAbbrWithSpaces(value)) {
             untranslatedValues[key] = value;
-        } else if (typeof value === 'object' && value !== null && !config.ignoreKeys.includes(key)) {
+        } else if (typeof value === 'object' && value !== null && !ignoreKeysSet.has(key)) {
             const nestedUntranslatedValues = findUntranslatedValues(value, config);
             if (Object.keys(nestedUntranslatedValues).length > 0) {
                 untranslatedValues[key] = nestedUntranslatedValues;
@@ -141,15 +147,11 @@ function isTargetLanguage(value, language) {
 }
 
 function isAbbr(value) {
-    // Regular expression to check for abbreviations (e.g., all uppercase letters)
-    const abbrPattern = /^[A-Z]+$/;
-    return abbrPattern.test(value);
+    return ABBR_PATTERN.test(value);
 }
 
 function isAbbrWithSpaces(value) {
-    // Check for abbreviations with spaces (e.g., "IMAP HOST")
-    const abbrWithSpacesPattern = /^[A-Z\s]+$/;
-    return abbrWithSpacesPattern.test(value);
+    return ABBR_WITH_SPACES_PATTERN.test(value);
 }
 
 function displayUntranslatedValues(data, prefix = '') {
@@ -184,49 +186,41 @@ function getAllKeys(obj, prefix = '') {
 
 function checkKeySynchronization(allData, fileConfigs) {
     const issues = [];
-    const fileKeys = {};
+    const fileKeysSets = new Map();
     
-    // Get all keys from each file
+    // Get all keys from each file as Sets
     for (const config of fileConfigs) {
         const filePath = config.path;
         const data = allData[filePath];
-        fileKeys[filePath] = getAllKeys(data);
+        fileKeysSets.set(filePath, new Set(getAllKeys(data)));
     }
     
-    // Find reference file (first file or file with most keys)
-    const filePaths = Object.keys(fileKeys);
-    const referenceFile = filePaths.reduce((ref, current) => 
-        fileKeys[current].length > fileKeys[ref].length ? current : ref
-    );
-    const referenceKeys = new Set(fileKeys[referenceFile]);
+    // Find reference file (file with most keys)
+    let referenceFile = null;
+    let maxKeys = 0;
+    for (const [filePath, keysSet] of fileKeysSets) {
+        if (keysSet.size > maxKeys) {
+            maxKeys = keysSet.size;
+            referenceFile = filePath;
+        }
+    }
+    
+    const referenceKeys = fileKeysSets.get(referenceFile);
     
     // Check each file against reference
-    for (const filePath of filePaths) {
+    for (const [filePath, currentKeys] of fileKeysSets) {
         if (filePath === referenceFile) continue;
         
-        const currentKeys = new Set(fileKeys[filePath]);
-        
-        // Find missing keys
+        // Find missing and extra keys
         for (const key of referenceKeys) {
             if (!currentKeys.has(key)) {
-                issues.push({
-                    type: 'missing',
-                    file: filePath,
-                    key: key,
-                    reference: referenceFile
-                });
+                issues.push({ type: 'missing', file: filePath, key });
             }
         }
         
-        // Find extra keys
         for (const key of currentKeys) {
             if (!referenceKeys.has(key)) {
-                issues.push({
-                    type: 'extra',
-                    file: filePath,
-                    key: key,
-                    reference: referenceFile
-                });
+                issues.push({ type: 'extra', file: filePath, key });
             }
         }
     }
@@ -253,16 +247,16 @@ function displaySyncIssues(issues) {
         
         if (fileIssues.missing.length > 0) {
             console.log(`    ${colors.red}Missing keys (${fileIssues.missing.length}):${colors.reset}`);
-            fileIssues.missing.forEach(key => {
+            for (const key of fileIssues.missing) {
                 console.log(`      ${colors.yellow}${key}${colors.reset}`);
-            });
+            }
         }
         
         if (fileIssues.extra.length > 0) {
             console.log(`    ${colors.red}Extra keys (${fileIssues.extra.length}):${colors.reset}`);
-            fileIssues.extra.forEach(key => {
+            for (const key of fileIssues.extra) {
                 console.log(`      ${colors.yellow}${key}${colors.reset}`);
-            });
+            }
         }
         console.log('');
     }

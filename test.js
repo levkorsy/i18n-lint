@@ -5,9 +5,12 @@ import { readFile } from 'fs/promises';
 // Import functions from index.js by reading and evaluating
 const indexContent = await readFile('index.js', 'utf8');
 
-// Extract SUPPORTED_LANGUAGES constant
+// Extract constants
 const languagesMatch = indexContent.match(/const SUPPORTED_LANGUAGES = ({[\s\S]*?});/);
 const SUPPORTED_LANGUAGES = eval(`(${languagesMatch[1]})`);
+
+const ABBR_PATTERN = /^[A-Z]+$/;
+const ABBR_WITH_SPACES_PATTERN = /^[A-Z\s]+$/;
 
 // Extract and create functions
 const createFunction = (name, content) => {
