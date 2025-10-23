@@ -1,6 +1,6 @@
 {
   "files": [
-    "C:\\Users\\lev_k\\Development\\Projects\\hrm-portal\\src\\i18n\\translations\\he.json"
+    "he.json"
   ],
   "ignoreKeys": ["BULK_ACTIONS"],
   "allowlist": [
