@@ -125,13 +125,14 @@ try {
         if (excludedFiles.length > 0) {
             console.log(`ℹ️  Excluded from sync: ${excludedFiles.map(f => f.path).join(', ')}`);
         }
-        const syncIssues = checkKeySynchronization(allTranslationData, syncFiles);
+        const syncIssues = checkKeySynchronization(allTranslationData, syncFiles, config.checkKeyOrder);
         if (syncIssues.length > 0) {
             console.log(`Found: ${syncIssues.length} synchronization issues`);
             displaySyncIssues(syncIssues);
             totalIssues += syncIssues.length;
         } else {
-            console.log('✅ All files have synchronized keys!');
+            const orderText = config.checkKeyOrder ? ' and key order' : '';
+            console.log(`✅ All files have synchronized keys${orderText}!`);
         }
         console.log('');
     }
@@ -238,15 +239,18 @@ function getAllKeys(obj, prefix = '') {
     return keys;
 }
 
-function checkKeySynchronization(allData, fileConfigs) {
+function checkKeySynchronization(allData, fileConfigs, checkKeyOrder = false) {
     const issues = [];
     const fileKeysSets = new Map();
+    const fileKeysArrays = new Map();
     
-    // Get all keys from each file as Sets
+    // Get all keys from each file
     for (const config of fileConfigs) {
         const filePath = config.path;
         const data = allData[filePath];
-        fileKeysSets.set(filePath, new Set(getAllKeys(data)));
+        const keysArray = getAllKeys(data);
+        fileKeysSets.set(filePath, new Set(keysArray));
+        fileKeysArrays.set(filePath, keysArray);
     }
     
     // Find reference file (file with most keys)
@@ -260,6 +264,7 @@ function checkKeySynchronization(allData, fileConfigs) {
     }
     
     const referenceKeys = fileKeysSets.get(referenceFile);
+    const referenceKeysArray = fileKeysArrays.get(referenceFile);
     
     // Check each file against reference
     for (const [filePath, currentKeys] of fileKeysSets) {
@@ -277,6 +282,31 @@ function checkKeySynchronization(allData, fileConfigs) {
                 issues.push({ type: 'extra', file: filePath, key });
             }
         }
+        
+        // Check key order if enabled
+        if (checkKeyOrder && currentKeys.size === referenceKeys.size) {
+            const currentKeysArray = fileKeysArrays.get(filePath);
+            const orderIssues = checkKeyOrderDifferences(referenceKeysArray, currentKeysArray, filePath);
+            issues.push(...orderIssues);
+        }
+    }
+    
+    return issues;
+}
+
+function checkKeyOrderDifferences(referenceKeys, currentKeys, filePath) {
+    const issues = [];
+    
+    // Find first position where order differs
+    for (let i = 0; i < Math.min(referenceKeys.length, currentKeys.length); i++) {
+        if (referenceKeys[i] !== currentKeys[i]) {
+            issues.push({
+                type: 'order',
+                file: filePath,
+                key: `Position ${i + 1}: expected '${referenceKeys[i]}', found '${currentKeys[i]}'`
+            });
+            break; // Only report first difference to avoid spam
+        }
     }
     
     return issues;
@@ -287,11 +317,12 @@ function displaySyncIssues(issues) {
         red: '\x1b[31m',
         yellow: '\x1b[33m',
         blue: '\x1b[34m',
+        magenta: '\x1b[35m',
         reset: '\x1b[0m'
     };
     
     const groupedIssues = issues.reduce((acc, issue) => {
-        if (!acc[issue.file]) acc[issue.file] = { missing: [], extra: [] };
+        if (!acc[issue.file]) acc[issue.file] = { missing: [], extra: [], order: [] };
         acc[issue.file][issue.type].push(issue.key);
         return acc;
     }, {});
@@ -310,6 +341,13 @@ function displaySyncIssues(issues) {
             console.log(`    ${colors.red}Extra keys (${fileIssues.extra.length}):${colors.reset}`);
             for (const key of fileIssues.extra) {
                 console.log(`      ${colors.yellow}${key}${colors.reset}`);
+            }
+        }
+        
+        if (fileIssues.order && fileIssues.order.length > 0) {
+            console.log(`    ${colors.red}Key order issues (${fileIssues.order.length}):${colors.reset}`);
+            for (const key of fileIssues.order) {
+                console.log(`      ${colors.magenta}${key}${colors.reset}`);
             }
         }
         console.log('');

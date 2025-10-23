@@ -21,5 +21,6 @@
     }
   ],
   "failOnFindings": false,
-  "outputDir": "output"
+  "outputDir": "output",
+  "checkKeyOrder": false
 }
