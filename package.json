@@ -8,6 +8,9 @@
     "i18n-quality-lint": "index.js"
   },
   "scripts": {
+    "test": "node test.js",
+    "test:integration": "node test-integration.js",
+    "test:all": "npm test && npm run test:integration",
     "check": "node index.js",
     "check:save": "node index.js --save",
     "publish:npm": "npm publish"

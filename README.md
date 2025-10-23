@@ -119,6 +119,20 @@ Old configuration format is still supported:
 - ✅ CI/CD friendly
 - ✅ Zero dependencies
 - ✅ Backward compatible
+- ✅ Comprehensive test coverage
+
+## Testing
+
+```bash
+# Run unit tests
+npm test
+
+# Run integration tests
+npm run test:integration
+
+# Run all tests
+npm run test:all
+```
 
 ## License
 
