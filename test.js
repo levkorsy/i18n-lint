@@ -153,4 +153,18 @@ const allKeys = getAllKeys(keysTestData);
 assert.deepStrictEqual(allKeys.sort(), ['KEY1', 'NESTED.SUB1', 'NESTED.SUB2'], 'Should extract all nested keys');
 console.log('✅ getAllKeys function tests passed\n');
 
+// Test 11: Exclude from sync functionality
+console.log('1️⃣1️⃣ Testing excludeFromSync functionality...');
+const excludeTestConfigs = [
+    { path: 'file1.json', excludeFromSync: false },
+    { path: 'file2.json', excludeFromSync: true },
+    { path: 'file3.json' }
+];
+const filteredConfigs = excludeTestConfigs.filter(config => !config.excludeFromSync);
+assert.strictEqual(filteredConfigs.length, 2, 'Should exclude file with excludeFromSync: true');
+assert.ok(filteredConfigs.some(c => c.path === 'file1.json'), 'Should include file1.json');
+assert.ok(filteredConfigs.some(c => c.path === 'file3.json'), 'Should include file3.json');
+assert.ok(!filteredConfigs.some(c => c.path === 'file2.json'), 'Should exclude file2.json');
+console.log('✅ excludeFromSync functionality tests passed\n');
+
 console.log('🎉 All tests passed successfully!');

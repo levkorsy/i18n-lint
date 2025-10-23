@@ -60,6 +60,13 @@ Create `.i18ncheckrc.json` in your project root:
       "language": "english",
       "ignoreKeys": [],
       "allowlist": ["Google", "API"]
+    },
+    {
+      "path": "src/i18n/translations/partial.json",
+      "language": "french",
+      "ignoreKeys": [],
+      "allowlist": [],
+      "excludeFromSync": true
     }
   ],
   "failOnFindings": true,
@@ -74,6 +81,7 @@ Create `.i18ncheckrc.json` in your project root:
   - `language` - Target language (see supported languages below)
   - `ignoreKeys` - Keys to skip for this file
   - `allowlist` - Allowed values for this file
+  - `excludeFromSync` - Exclude this file from key synchronization checking (optional)
 - `failOnFindings` - Exit with error code if issues found (useful for CI/CD)
 - `outputDir` - Directory to save results
 

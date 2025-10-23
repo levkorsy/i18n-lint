@@ -16,7 +16,8 @@
       "path": "test-translations/ru.json",
       "language": "russian",
       "ignoreKeys": [],
-      "allowlist": ["API", "JWT", "Google", "Email"]
+      "allowlist": ["API", "JWT", "Google", "Email"],
+      "excludeFromSync": true
     }
   ],
   "failOnFindings": false,

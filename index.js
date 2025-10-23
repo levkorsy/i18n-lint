@@ -68,9 +68,14 @@ try {
     }
     
     // Check key synchronization between files
-    if (filesToCheck.length > 1) {
+    const syncFiles = filesToCheck.filter(config => !config.excludeFromSync);
+    if (syncFiles.length > 1) {
         console.log('🔄 Checking key synchronization between files...');
-        const syncIssues = checkKeySynchronization(allTranslationData, filesToCheck);
+        const excludedFiles = filesToCheck.filter(config => config.excludeFromSync);
+        if (excludedFiles.length > 0) {
+            console.log(`ℹ️  Excluded from sync: ${excludedFiles.map(f => f.path).join(', ')}`);
+        }
+        const syncIssues = checkKeySynchronization(allTranslationData, syncFiles);
         if (syncIssues.length > 0) {
             console.log(`Found: ${syncIssues.length} synchronization issues`);
             displaySyncIssues(syncIssues);
