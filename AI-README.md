@@ -33,7 +33,7 @@ npx i18n-quality-lint
 ```
 
 ## Supported Languages
-`english`, `hebrew`, `arabic`, `russian`, `chinese`, `japanese`, `korean`, `french`, `german`, `spanish`, `italian`, `portuguese`, `dutch`, `polish`, `czech`, `thai`, `hindi`, `greek`
+50+ languages including: `english`, `hebrew`, `arabic`, `russian`, `chinese`, `japanese`, `korean`, `french`, `german`, `spanish`, `italian`, `portuguese`, `dutch`, `polish`, `czech`, `thai`, `hindi`, `greek`, `turkish`, `vietnamese`, `bulgarian`, `ukrainian`, `serbian`, `croatian`, `hungarian`, `romanian`, `finnish`, `swedish`, `norwegian`, `danish`, `bengali`, `tamil`, `telugu`, `persian`, `urdu`, `georgian`, `armenian`, `amharic`, `swahili`, `malay`, `indonesian`, and more.
 
 ## Output Format
 - Console: Colored output with file paths and issue details

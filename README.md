@@ -108,9 +108,20 @@ Create `.i18ncheckrc.json` in your project root:
 
 ### Supported Languages
 
-- `english`, `hebrew`, `arabic`, `russian`, `chinese`, `japanese`, `korean`
-- `french`, `german`, `spanish`, `italian`, `portuguese`, `dutch`
-- `polish`, `czech`, `thai`, `hindi`, `greek`
+**European Languages:**
+- `english`, `french`, `german`, `spanish`, `italian`, `portuguese`, `dutch`
+- `polish`, `czech`, `hungarian`, `romanian`, `croatian`, `slovenian`, `slovak`
+- `finnish`, `swedish`, `norwegian`, `danish`, `lithuanian`, `latvian`, `estonian`
+- `turkish`, `greek`, `bulgarian`, `ukrainian`, `serbian`
+
+**Asian Languages:**
+- `chinese`, `japanese`, `korean`, `thai`, `vietnamese`
+- `hindi`, `bengali`, `tamil`, `telugu`, `malayalam`, `kannada`, `gujarati`
+- `punjabi`, `marathi`, `nepali`, `urdu`, `persian`, `sinhala`
+- `burmese`, `khmer`, `lao`, `malay`, `indonesian`
+
+**Middle Eastern & African:**
+- `hebrew`, `arabic`, `georgian`, `armenian`, `amharic`, `swahili`
 
 ### Backward Compatibility
 
@@ -140,7 +151,7 @@ Old configuration format is still supported:
 
 ## Features
 
-- ✅ Detects untranslated strings in 18+ languages
+- ✅ Detects untranslated strings in 50+ languages
 - ✅ **Key synchronization checking** - finds missing/extra keys between files
 - ✅ Individual configuration per file
 - ✅ Configurable allowlist for technical terms
