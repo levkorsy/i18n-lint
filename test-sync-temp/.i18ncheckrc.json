@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "path": "test-sync-temp\\en.json",
+      "language": "english"
+    },
+    {
+      "path": "test-sync-temp\\es.json",
+      "language": "spanish"
+    },
+    {
+      "path": "test-sync-temp\\fr.json",
+      "language": "french"
+    }
+  ]
+}

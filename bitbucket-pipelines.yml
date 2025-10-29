@@ -1,0 +1,12 @@
+image: node:18
+
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: i18n Quality Check
+          caches:
+            - node
+          script:
+            - npm ci
+            - npx i18n-quality-lint

@@ -1,21 +1,24 @@
 {
   "name": "i18n-quality-lint",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "Universal i18n quality linter: detect untranslated strings and sync keys across 60+ languages (including Klingon!)",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "i18n-quality-lint": "index.js"
+    "i18n-quality-lint": "index.js",
+    "i18n-sync-keys": "sync-keys.js"
   },
   "scripts": {
     "test": "node test.js",
     "test:integration": "node test-integration.js",
-    "test:all": "npm test && npm run test:integration",
+    "test:sync-keys": "node test-sync-keys.js",
+    "test:all": "npm test && npm run test:integration && npm run test:sync-keys",
     "precommit": "npm run test:all",
     "prepublishOnly": "npm run test:all",
     "setup-hooks": "node setup-hooks.js",
     "check": "node index.js",
     "check:save": "node index.js --save",
+    "sync-keys": "node sync-keys.js",
     "publish:npm": "npm publish"
   },
   "keywords": [
@@ -63,6 +66,7 @@
   },
   "files": [
     "index.js",
+    "sync-keys.js",
     "README.md",
     "AI-README.md",
     "LICENSE"

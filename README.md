@@ -19,6 +19,7 @@
 - Optional key order checking
 - Excludes files from sync when needed
 - Smart reference file detection
+- Manual key order synchronization tool
 
 🎨 **Developer Experience**
 - Colored console output with issue highlighting
@@ -187,6 +188,9 @@ npx i18n-quality-lint
 
 # Check and save results to file
 npx i18n-quality-lint --save
+
+# Sync key order across files (manual operation)
+npx i18n-sync-keys
 ```
 
 ### Package.json Scripts
@@ -195,6 +199,7 @@ npx i18n-quality-lint --save
   "scripts": {
     "i18n:check": "i18n-quality-lint",
     "i18n:check:save": "i18n-quality-lint --save",
+    "i18n:sync-keys": "i18n-sync-keys",
     "i18n:ci": "i18n-quality-lint --fail-on-findings"
   }
 }
@@ -257,6 +262,32 @@ npx i18n-quality-lint --save
     }
   ]
 }
+```
+
+## 🔄 Key Order Synchronization
+
+**NEW!** Separate tool to manually synchronize key order across translation files:
+
+```bash
+# Sync key order (uses first file as reference)
+npx i18n-sync-keys
+```
+
+**Features:**
+- Uses first file in config as reference for key order
+- Preserves all values and extra keys
+- Respects `excludeFromSync` setting
+- Safe operation - only reorders, never deletes
+
+**Example:**
+```bash
+# Before sync:
+# en.json: {"WELCOME": "Welcome", "LOGIN": "Login"}
+# es.json: {"LOGIN": "Iniciar", "WELCOME": "Bienvenido"}
+
+# After sync:
+# en.json: {"WELCOME": "Welcome", "LOGIN": "Login"} (unchanged)
+# es.json: {"WELCOME": "Bienvenido", "LOGIN": "Iniciar"} (reordered)
 ```
 
 ## 🔧 Advanced Features

@@ -6,14 +6,16 @@ Universal CLI tool for i18n quality checking: detects untranslated strings and s
 ## Core Capabilities
 - **Translation Validation**: Finds untranslated strings in translation files
 - **Key Synchronization**: Detects missing/extra keys between language files
-- **Key Order Checking**: Optional validation of key order consistency  
+- **Key Order Checking**: Optional validation of key order consistency
+- **Key Order Synchronization**: Manual tool to sync key order across files
 - **Multi-language Support**: 60+ languages (Hebrew, Arabic, Chinese, Russian, Klingon, etc.)
 - **Flexible Configuration**: Per-file settings, allowlists, ignore patterns, nested key support
 
 ## Installation & Usage
 ```bash
 npm install --save-dev i18n-quality-lint
-npx i18n-quality-lint
+npx i18n-quality-lint          # Check translations
+npx i18n-sync-keys             # Sync key order
 ```
 
 ## Configuration Schema
@@ -47,6 +49,7 @@ npx i18n-quality-lint
 2. **Development Workflow**: Pre-commit hooks for translation validation
 3. **Multi-team Projects**: Ensure translation consistency across teams
 4. **Localization QA**: Systematic review of translation completeness
+5. **Key Order Management**: Maintain consistent key order across all translation files
 
 ## API Integration
 CLI tool only - no programmatic API. Use child_process to integrate:
